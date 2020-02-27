@@ -1,0 +1,14 @@
+<h1>Doctors</h1>
+<% @doctors.each do |doctor| %>
+    <h3>Dr. <%= doctor.name %></h3>
+    <%= link_to 'Show appointments', doctor_appointments_path(doctor) %>
+    <%= link_to 'Edit doctor', edit_doctor_path(doctor) %>
+    <%= link_to 'Delete doctor', doctor, method: :delete %>
+<% end %>
+
+<h2>Create New Doctor</h2>
+<%= link_to 'New Doctor', new_doctor_path %>
+<br>
+<br>
+<br>
+<%= link_to 'Patients', patients_path %>
