@@ -195,3 +195,108 @@ class DoctorsController < ApplicationController
 end
 
 now we'll do the CRUD for appointments nested inside of doctors
+class AppointmentsController < ApplicationController
+  before_action :set_doctor 
+  before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  def index
+    @appointments = @doctor.appointments
+  end
+
+  def show
+  end
+
+  def new
+    @appointment = Appointment.new
+  end
+  
+  def create
+    @appointment = @doctor.appointments.new(appointment_params)
+    if @appointment.save
+      redirect_to doctor_appointments_path(@doctor)
+    else
+      render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @appointment.update(appointment_params)
+      redirect_to doctor_appointments_path(@doctor)
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @appointment.destroy
+    redirect_to doctor_appointments_path
+  end
+
+  private
+
+  def set_doctor
+    @doctor = Doctor.find(params[:doctor_id])
+  end
+  
+  def set_appointment
+    @appointment = Appointment.find(params[:id])
+  end
+
+  def appointment_params
+    params.require(:appointment).permit(:date, :patient_id)
+  end
+end
+
+then lastly we will do all the CRUD actions for patients
+class PatientsController < ApplicationController
+  before_action :set_patient, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @patients = Patient.all
+  end
+
+  def show
+  end
+
+  def new
+    @patient = Patient.new
+  end
+
+  def create 
+    @patient = Patient.new(patient)
+    if @patinet 
+      redirect_to patients_path
+    else
+      render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update 
+    if @patient.update(patient_params)
+      redirect_to patients_path
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @patient.destroy
+    redirect_to patients_path
+  end
+
+  private
+
+  def set_patient
+    @patient = Patient.find(params[:id])
+  end
+
+  def patient_params
+    params.require(:patient).permit(:name)
+  end
+
+end
